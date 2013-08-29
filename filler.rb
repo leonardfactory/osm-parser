@@ -57,10 +57,16 @@ module OSM
                 area[:type] = error[:type]
                 area[:center] = error[:center]
                 center = { :lat => error[:center][1], :lon => error[:center][0] }
+                puts "Center:"
+                puts center.inspect
               
               elsif element["type"] == 'node'
                 distance = GeoDistance::Haversine.geo_distance( center[:lat], center[:lon],
                                                                 element["lat"], element["lon"]).to_meters;  
+                puts "Distance:"
+                puts distance
+                puts element["lat"]
+                puts element["lat"].to_f
                 coords.push(distance);
               end
             end
