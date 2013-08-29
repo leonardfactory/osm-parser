@@ -58,9 +58,9 @@ module OSM
                 area[:center] = error[:center]
                 center = { :lat => error[:center][1], :lon => error[:center][0] }
               
-              elsif element[:type] == 'node'
+              elsif element["type"] == 'node'
                 distance = GeoDistance::Haversine.geo_distance( center[:lat], center[:lon],
-                                                                element["lat"], element["lon"]).to_meters;
+                                                                element["lat"], element["lon"]).to_meters;  
                 coords.push(distance);
               end
             end
