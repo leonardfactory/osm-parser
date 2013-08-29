@@ -21,6 +21,8 @@ module OSM
       def object_parsed(obj)
         obj[:errors].each do |error|
           
+          puts "Processing #{error[:name]}"
+          
           # Write temporary query
           @temp_file = File.open('~/bin/bin/query_temp.in', 'w') # overwrite
           @temp_file.puts("[out:json];
@@ -35,8 +37,11 @@ module OSM
           # Execute
           json = `~/bin/bin/osm3s_query --db-dir=/osm/db < ~/bin/bin/query_temp.in`
           
+          puts "JSON:"
+          puts json
+          
           # Parse
-          obj = Yajl::Parser.parse(obj)
+          obj = Yajl::Parser.parse(json)
           
           if(obj[:elements].size == 0)
             @logger.log(error)
