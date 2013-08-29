@@ -22,7 +22,7 @@ module OSM
         obj[:errors].each do |error|
           
           # Write temporary query
-          @temp_file = File.open('query_temp.in', 'w') # overwrite
+          @temp_file = File.open('~/bin/bin/query_temp.in', 'w') # overwrite
           @temp_file.puts("[out:json];
             area[name=\"#{error[:name]}\"]->.c;
             rel(pivot.c)->.rel;
@@ -33,7 +33,7 @@ module OSM
           @temp_file.close
           
           # Execute
-          json = `./osm3s_query --db-dir=/osm/db < query_temp.in`
+          json = `~/bin/bin/osm3s_query --db-dir=/osm/db < ~/bin/bin/query_temp.in`
           
           # Parse
           obj = Yajl::Parser.parse(obj)
