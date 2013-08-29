@@ -102,7 +102,7 @@ module OSM
     def self.read_and_parse(from, to, log)
       writer = OSM::Writer.new(to)
       logger = OSM::Logger.new(log)
-      reader = OSM::Filler::Reader.new(to, writer, logger)
+      reader = OSM::Filler::Reader.new(from, writer, logger)
       reader.parse
     end
   end
