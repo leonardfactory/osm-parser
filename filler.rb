@@ -45,6 +45,8 @@ module OSM
           else
             puts json["elements"][0]
             
+            yet_one = false
+            skip = false
             area = {}
             center = {}
             coords = []
@@ -55,6 +57,9 @@ module OSM
               tags = element.key?("tags") ? element["tags"] : nil
               
               if element["type"] == 'area'
+                skip = true if yet_one
+                yet_one = true
+                
                 area[:name] = error[:name]
                 area[:type] = error[:type]
                 area[:center] = error[:center]
@@ -81,7 +86,7 @@ module OSM
                       box[:left] < center[:lon] &&
                       box[:right] > center[:lon]
             
-            if inside
+            if inside && !skip
               # Now process points and save to our output
               distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
               area[:radius] = distance_avg * 1.2 # Something moar is okay
