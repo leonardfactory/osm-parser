@@ -40,27 +40,25 @@ module OSM
           # Parse
           json = Yajl::Parser.parse(json_str)
           
-          if(json[:elements] == nil || json[:elements].size == 0)
-            puts "Elements:"
-            puts json["elements"]
+          if(json["elements"] == nil || json["elements"].size == 0)
             @logger.log(error)
           else
             area = {}
             center = {}
             coords = []
             
-            json[:elements].each do |element|
-              tags = element.key?(:tags) ? element[:tags] : nil
+            json["elements"].each do |element|
+              tags = element.key?("tags") ? element["tags"] : nil
               
-              if element[:type] == 'area'
-                area[:name] = tags[:name]
-                area[:type] = tags[:place]
-                area[:center] = [element[:lon], element[:lat]]
-                center = { :lat => element[:lat], :lon => element[:lon] }
+              if element["type"] == 'area'
+                area[:name] = tags["name"]
+                area[:type] = tags["place"]
+                area[:center] = [element["lon"], element["lat"]]
+                center = { :lat => element["lat"], :lon => element["lon"] }
               
               elsif element[:type] == 'node'
                 distance = GeoDistance::Haversine.geo_distance( center[:lat], center[:lon],
-                                                                element[:lat], element[:lon]).to_meters;
+                                                                element["lat"], element["lon"]).to_meters;
                 coords.push(distance);
               end
             end
