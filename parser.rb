@@ -110,7 +110,8 @@ module OSM
         end
       end
       
-      @writer.done
+      @logger.done!
+      @writer.done!
     end
   
     def receive_data(data)
@@ -187,7 +188,7 @@ module OSM
       @stream.puts(",")
     end
     
-    def done
+    def done!
       # MongoDB closing insert command
       @stream.puts("\n])")
       @stream.close
@@ -208,7 +209,7 @@ module OSM
       @stream.puts(",")
     end
     
-    def done
+    def done!
       @stream.puts("\n])")
       @stream.close
     end
