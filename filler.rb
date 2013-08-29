@@ -53,10 +53,10 @@ module OSM
               tags = element.key?("tags") ? element["tags"] : nil
               
               if element["type"] == 'area'
-                area[:name] = tags["name"]
-                area[:type] = tags["place"]
-                area[:center] = [element["lon"], element["lat"]]
-                center = { :lat => element["lat"], :lon => element["lon"] }
+                area[:name] = error[:name]
+                area[:type] = error[:type]
+                area[:center] = error[:center]
+                center = { :lat => error[:center][1], :lon => error[:center][0] }
               
               elsif element[:type] == 'node'
                 distance = GeoDistance::Haversine.geo_distance( center[:lat], center[:lon],
