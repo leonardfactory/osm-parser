@@ -43,6 +43,8 @@ module OSM
           if(json["elements"] == nil || json["elements"].size == 0)
             @logger.log(error)
           else
+            puts json["elements"][0]
+            
             area = {}
             center = {}
             coords = []
