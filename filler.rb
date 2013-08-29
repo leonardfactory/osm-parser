@@ -49,6 +49,8 @@ module OSM
             center = {}
             coords = []
             
+            box = { :top => 0.0, :left => 0.0, :right => 0.0, :bottom => 0.0 }
+            
             json["elements"].each do |element|
               tags = element.key?("tags") ? element["tags"] : nil
               
@@ -57,27 +59,37 @@ module OSM
                 area[:type] = error[:type]
                 area[:center] = error[:center]
                 center = { :lat => error[:center][1], :lon => error[:center][0] }
-                puts "Center:"
-                puts center.inspect
               
               elsif element["type"] == 'node'
                 distance = GeoDistance::Haversine.geo_distance( center[:lat], center[:lon],
                                                                 element["lat"], element["lon"]).to_meters;  
-                puts "Distance:"
-                puts distance
-                puts element["lat"]
-                puts element["lat"].to_f
                 coords.push(distance);
+                
+                # Checking box (lat is N-S, lon is E-O)
+                box[:bottom]  = [element["lat"], box[:bottom]].min
+                box[:top]     = [element["lat"], box[:top]].max
+                box[:left]    = [element["lon"], box[:left]].min
+                box[:right]   = [element["lon"], box[:right]].man
               end
             end
             
             puts "[Done]"
             
-            # Now process points and save to our output
-            distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
-            area[:radius] = distance_avg * 1.2 # Something moar is okay
-            area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
-            @writer.put(area)
+            # Check before if center is contained inside the area processed
+            inside =  box[:bottom] < center[:lat] &&
+                      box[:top] > center[:lat] &&
+                      box[:left] < center[:lon] &&
+                      box[:right] > center[:lon]
+            
+            if inside
+              # Now process points and save to our output
+              distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
+              area[:radius] = distance_avg * 1.2 # Something moar is okay
+              area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
+              @writer.put(area)
+            else
+              @logger.log(error)
+            end
           end
         end
         
