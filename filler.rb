@@ -35,24 +35,24 @@ module OSM
           @temp_file.close
           
           # Execute
-          json = `/home/ubuntu/bin/bin/osm3s_query --db-dir=/osm/db < /home/ubuntu/bin/bin/query_temp.in`
+          json_str = `/home/ubuntu/bin/bin/osm3s_query --db-dir=/osm/db < /home/ubuntu/bin/bin/query_temp.in`
           
           puts "JSON:"
-          puts json
+          puts json_str
           
           # Parse
-          obj = Yajl::Parser.parse(json)
+          json = Yajl::Parser.parse(json_str)
           
-          puts obj.inspect
+          puts json.inspect
           
-          if(obj[:elements].size == 0)
+          if(json[:elements].size == 0)
             @logger.log(error)
           else
             area = {}
             center = {}
             coords = []
             
-            obj[:elements].each do |element|
+            json[:elements].each do |element|
               tags = element.key?(:tags) ? element[:tags] : nil
               
               if element[:type] == 'area'
