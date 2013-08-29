@@ -43,6 +43,8 @@ module OSM
           # Parse
           obj = Yajl::Parser.parse(json)
           
+          puts obj.inspect
+          
           if(obj[:elements].size == 0)
             @logger.log(error)
           else
