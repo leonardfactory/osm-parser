@@ -69,7 +69,7 @@ module OSM
                 box[:bottom]  = [element["lat"], box[:bottom]].min
                 box[:top]     = [element["lat"], box[:top]].max
                 box[:left]    = [element["lon"], box[:left]].min
-                box[:right]   = [element["lon"], box[:right]].man
+                box[:right]   = [element["lon"], box[:right]].max
               end
             end
             
