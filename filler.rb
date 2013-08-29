@@ -44,8 +44,9 @@ module OSM
           json = Yajl::Parser.parse(json_str)
           
           puts json.inspect
+          # puts json[:elements]
           
-          if(json[:elements].size == 0)
+          if(json[:elements] == nil || json[:elements].size == 0)
             @logger.log(error)
           else
             area = {}
