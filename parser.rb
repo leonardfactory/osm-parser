@@ -201,7 +201,7 @@ module OSM
       @stream = File.open(@file, 'w')
       @encoder = Yajl::Encoder.new
       
-      @stream.puts("{ errors: [\n")
+      @stream.puts("{ \"errors\": [\n")
     end
     
     def log(hash)
