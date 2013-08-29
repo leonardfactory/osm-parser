@@ -37,14 +37,8 @@ module OSM
           # Execute
           json_str = `/home/ubuntu/bin/bin/osm3s_query --db-dir=/osm/db < /home/ubuntu/bin/bin/query_temp.in`
           
-          puts "JSON:"
-          puts json_str
-          
           # Parse
           json = Yajl::Parser.parse(json_str)
-          
-          puts json.inspect
-          # puts json[:elements]
           
           if(json[:elements] == nil || json[:elements].size == 0)
             @logger.log(error)
@@ -69,10 +63,12 @@ module OSM
               end
             end
             
+            puts "[Done]"
+            
             # Now process points and save to our output
             distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
             area[:radius] = distance_avg * 1.2 # Something moar is okay
-            area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(@center, @area[:radius]) ] }
+            area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
             @writer.put(area)
           end
         end
