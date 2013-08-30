@@ -94,7 +94,7 @@ module OSM
             
             if inside && !skip
               # Now process points and save to our output
-              
+              distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
               area[:radius] = distance_avg * 1.2 # Something moar is okay
               area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
               @writer.put(area)
@@ -114,7 +114,7 @@ module OSM
           'village'   => 1000.0,
           'hamlet'    => 500.0,
           'town'      => 5000.0,
-          'city'      => 20000.0
+          'city'      => 20000
         }
         
         area[:radius] = values[node[:type]]
