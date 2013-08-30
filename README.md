@@ -67,7 +67,8 @@ The fill approximate the radius based on `error[:type]` (`place` tag in OSM), us
 
 | Type | Radius | Km |
 | ---- | ------ | -- |
+| isolated_dwelling | 100m | 0,1 |
 | hamlet | 500m | 0,5 |
-| village | 1000m | 1 |
+| village, locality, island | 1000m | 1 |
 | town | 5000m |  5 |
 | city | 20000m | 20 |

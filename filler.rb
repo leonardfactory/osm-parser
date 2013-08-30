@@ -114,7 +114,10 @@ module OSM
           'village'   => 1000.0,
           'hamlet'    => 500.0,
           'town'      => 5000.0,
-          'city'      => 20000
+          'city'      => 20000.0,
+          'locality'  => 1000.0,
+          'isolated_dwelling' => 100.0,
+          'island'    => 1000.0
         }
         
         area[:radius] = values[node[:type]]
