@@ -51,7 +51,7 @@ module OSM
             center = {}
             coords = []
             
-            box = { :top => 0.0, :left => 0.0, :right => 0.0, :bottom => 0.0 }
+            box = { :top => -Float::INFINITY, :left => Float::INFINITY, :right => -Float::INFINITY, :bottom => Float::INFINITY }
             
             json["elements"].each do |element|
               tags = element.key?("tags") ? element["tags"] : nil
