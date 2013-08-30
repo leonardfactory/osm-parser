@@ -89,6 +89,12 @@ module OSM
             if inside && !skip
               # Now process points and save to our output
               distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
+              puts "Inside with distance: #{distance_avg}"
+              puts "And box is:"
+              puts box.inspect
+              puts "And center is:"
+              puts center.inspect
+              
               area[:radius] = distance_avg * 1.2 # Something moar is okay
               area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
               @writer.put(area)
