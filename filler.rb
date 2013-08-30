@@ -118,6 +118,8 @@ module OSM
         }
         
         area[:radius] = values[node[:type]]
+        puts "Type: #{node[:type]}"
+        puts values[node[:type]]
         area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
         area[:approximate] = true
         @writer.put(area)
