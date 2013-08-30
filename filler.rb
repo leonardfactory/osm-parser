@@ -41,7 +41,15 @@ module OSM
           json = Yajl::Parser.parse(json_str)
           
           if(json["elements"] == nil || json["elements"].size == 0)
-            @logger.log(error)
+            # @logger.log(error)
+            area = {
+              :name => error[:name],
+              :type => error[:type],
+              :center => error[:center]
+            }
+            center = { :lat => error[:center][1], :lon => error[:center][0] }
+            save_approximate(area, error, center)
+            
           else
             puts json["elements"][0]
             
@@ -78,8 +86,6 @@ module OSM
               end
             end
             
-            puts "[Done]"
-            
             # Check before if center is contained inside the area processed
             inside =  box[:bottom] < center[:lat] &&
                       box[:top] > center[:lat] &&
@@ -88,24 +94,33 @@ module OSM
             
             if inside && !skip
               # Now process points and save to our output
-              distance_avg = coords.inject(0.0) { |sum, dist| sum + dist }.to_f / coords.size
-              puts "Inside with distance: #{distance_avg}"
-              puts "And box is:"
-              puts box.inspect
-              puts "And center is:"
-              puts center.inspect
               
               area[:radius] = distance_avg * 1.2 # Something moar is okay
               area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
               @writer.put(area)
             else
-              @logger.log(error)
+              # @logger.log(error)
+              save_approximate(area, error, center)
             end
           end
         end
         
         @logger.done!
         @writer.done!
+      end
+      
+      def save_approximate(area, node, center)
+        values = {
+          'village'   => 1000.0,
+          'hamlet'    => 500.0,
+          'town'      => 5000.0,
+          'city'      => 20000.0
+        }
+        
+        area[:radius] = values[node[:type]]
+        area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
+        area[:approximate] = true
+        @writer.put(area)
       end
     
       def receive_data(data)
