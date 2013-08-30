@@ -25,7 +25,7 @@ foreach->.p(
 );
 ```
 
-Out format (**json**) and out *instructions order* are important.
+Out format ( **json** ) and out *instructions order* are important.
 
 Note that `[name~"^(A|B)"]` is a parameter used to split data in smaller chunks. In this way for a country you'll get a ~50mb file for each letter. Be warned.
 
@@ -61,3 +61,13 @@ out;
 ```
 
 Where `#{error[:name]}` is the place name found in the JSON.
+
+####2) Approximate by place tag
+The fill approximate the radius based on `error[:type]` (`place` tag in OSM), using this comparison table:
+
+| Type | Radius | Km |
+| ---- | ------ | -- |
+| hamlet | 500m | 0,5 |
+| village | 1000m | 1 |
+| town | 5000m |  5 |
+| city | 20000m | 20 |
