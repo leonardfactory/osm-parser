@@ -38,7 +38,7 @@ After producing the `json` file, you need to run `./parser.rb <input.json> <outp
 
 * `error.json` isn't required, and the default `error.log` will be generated. This file is needed in the second step.
 
-* `output.js` is a command runnable with the Mongo shell simply with `mongo < output.js`. It will bulk insert data in `areas` collection.
+* `output.js` is a command runnable with the Mongo shell simply with `mongo <database> output.js`. It will bulk insert data in `areas` collection into the `<database>` provided.
 
 ###Filler (second step)
 Due to Overpassi API query limits, some areas may be available but not generated in the first step. The **filler** will run some particular query for each place found in the `input.json` and put into `error.json`, generating other areas.
