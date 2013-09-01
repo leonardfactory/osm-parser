@@ -1,9 +1,6 @@
 #!/usr/bin/env ruby
 require_relative 'osm'
 
-# @todo create `/osm/parser-results` folder
-# @todo change OSM::Writer to avoid widow comma
-
 chunks = {
   "abc"   => { :query => 'A|B|C', :prefix => 'abc'},
   "def"   => { :query => 'D|E|F', :prefix => 'def'},
