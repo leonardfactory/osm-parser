@@ -3,6 +3,7 @@ module OSM
   class Writer
     def initialize(file_path)
       @file = file_path
+      @first_line = true
       @stream = File.open(@file, 'w')
       @encoder = Yajl::Encoder.new
       
@@ -11,8 +12,12 @@ module OSM
     end
     
     def put(hash)
+      if !@first_line 
+        @stream.puts(",")
+      else
+        @first_line = false
+      end
       @encoder.encode(hash, @stream)
-      @stream.puts(",")
     end
     
     def done!
@@ -26,6 +31,7 @@ module OSM
   class Logger
     def initialize(file_path)
       @file = file_path
+      @first_line = true
       @stream = File.open(@file, 'w')
       @encoder = Yajl::Encoder.new
       
@@ -33,8 +39,12 @@ module OSM
     end
     
     def log(hash)
+      if !@first_line 
+        @stream.puts(",")
+      else
+        @first_line = false
+      end
       @encoder.encode(hash, @stream)
-      @stream.puts(",")
     end
     
     def done!
