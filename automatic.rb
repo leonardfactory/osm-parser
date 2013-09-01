@@ -3,16 +3,16 @@ require 'yajl'
 require 'geo-distance'
 require_relative 'osm'
 
-chunks = {
-  "abc"   => { :query => 'A|B|C', :prefix => 'abc'},
-  "def"   => { :query => 'D|E|F', :prefix => 'def'},
-  "ghi"   => { :query => 'G|H|I', :prefix => 'ghi'},
-  "jkl"   => { :query => 'J|K|L', :prefix => 'jkl'},
-  "mno"   => { :query => 'M|N|O', :prefix => 'mno'},
-  "pqr"   => { :query => 'P|Q|R', :prefix => 'pqr'},
-  "stu"   => { :query => 'S|T|U', :prefix => 'stu'},
-  "vwxyz" => { :query => 'V|W|X|Y|Z', :prefix => 'vwxyz'}
-}
+chunks = [
+  { :query => 'A|B|C', :prefix => 'abc'},
+  { :query => 'D|E|F', :prefix => 'def'},
+  { :query => 'G|H|I', :prefix => 'ghi'},
+  { :query => 'J|K|L', :prefix => 'jkl'},
+  { :query => 'M|N|O', :prefix => 'mno'},
+  { :query => 'P|Q|R', :prefix => 'pqr'},
+  { :query => 'S|T|U', :prefix => 'stu'},
+  { :query => 'V|W|X|Y|Z', :prefix => 'vwxyz'}
+]
 
 RESULTS_FOLDER  = "/osm/parser-results"
 BIN_FOLDER      = "/home/ubuntu/bin/bin"
