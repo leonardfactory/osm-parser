@@ -48,7 +48,7 @@ module OSM
     end
     
     def done!
-      @stream.puts("\n])")
+      @stream.puts("\n] }")
       @stream.close
     end
   end
