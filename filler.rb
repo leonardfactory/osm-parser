@@ -23,10 +23,13 @@ module OSM
           
           puts "Processing #{error[:name]}"
           
+          # Avoid double quotes. Don't care about them.
+          name_escaped = error[:name].tr(?", ?')
+          
           # Write temporary query
           @temp_file = File.open('/home/ubuntu/bin/bin/query_temp.in', 'w') # overwrite
           @temp_file.puts("[out:json];
-            area[name=\"#{error[:name]}\"][type=\"boundary\"]->.c;
+            area[name=\"#{name_escaped}\"][type=\"boundary\"]->.c;
             rel(pivot.c)->.rel;
             way(r.rel);
             node(w);
