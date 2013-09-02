@@ -49,8 +49,13 @@ chunks.each do |chunk|
                 );")
     file.close
     
-    # Run it
-    query_ok = system("./osm3s_query --db-dir=/osm/db/ < query_chunk.in > #{RESULTS_FOLDER}/chunk_#{chunk[:prefix]}.json")
+    if File.exists?("#{RESULTS_FOLDER}/chunk_#{chunk[:prefix]}.json")
+      # Yet done
+      query_ok = true
+    else
+      # Run it
+      query_ok = system("./osm3s_query --db-dir=/osm/db/ < query_chunk.in > #{RESULTS_FOLDER}/chunk_#{chunk[:prefix]}.json")
+    end
   end
     
   if query_ok
