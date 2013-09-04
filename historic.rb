@@ -34,7 +34,7 @@ module OSM
           area[:center] = [element[:lon], element[:lat]]
           center = { :lat => element[:lat], :lon => element[:lon] }
           
-          area[:radius] = @@values[area[:type]]
+          area[:radius] = get_radius(element)
           area[:geometry] = { :type => 'Polygon', :coordinates => [ OSM::Converter.radius2poly(center, area[:radius]) ] }
           area[:approximate] = true
           @writer.put(area)
