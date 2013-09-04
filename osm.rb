@@ -1,4 +1,21 @@
 module OSM
+  # Some general utilities
+  module General
+    # A general reader
+    class Reader
+      def initialize(file_path, callable)
+        @file = file_path
+        @callable = callable
+      end
+      
+      def read!
+        File.open(@file).each do |line|
+          @callable.call(line)
+        end
+      end
+    end
+  end
+  
   # A Writer where to store what we are doing here
   class Writer
     def initialize(file_path)
