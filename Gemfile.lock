@@ -36,3 +36,4 @@ PLATFORMS
 
 DEPENDENCIES
   geo-distance (~> 0.2.0)
+  yajl-ruby
