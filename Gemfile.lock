@@ -30,6 +30,7 @@ GEM
     thread_safe (0.1.2)
       atomic
     tzinfo (0.3.37)
+    yajl-ruby (1.2.0)
 
 PLATFORMS
   ruby
